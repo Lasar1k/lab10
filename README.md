@@ -114,17 +114,52 @@ INFO: Your CPU does not support KVM extensions
 KVM acceleration can NOT be used
 
 ```
-Как выяснилось, нет. Дальнейшие действия носят чисто теоретический характер, т.к. на практике я их осуществить не могу.
+Как выяснилось, нет. Проблему я смог решить, переустановив заново vagrant с плагином и virtualbox
 ```
+$ sudo vagrant up --provider virtualbox
+Bringing machine 'default' up with 'virtualbox' provider...
+	==> default: Box 'bento/ubuntu-19.10' could not be found. Attempting to find and install...
+	    default: Box Provider: virtualbox
+        ...
+
 $ vagrant port                           # просмотр порта
-$ vagrant status                         
+  22 (guest) => 2222 (host)
+$ vagrant status     
+Current machine states:
+	
+	default                   running (virtualbox)
 $ vagrant ssh                            # подключение к виртуалке через ssh
+  System information as of Fri 11 Jun 2021 09:01:51 PM UTC
+	
+	   System load:  0.09              Processes:           110
+	  Usage of /:   11.4% of 7.79GB   Users logged in:     0
+	  Memory usage: 14%                IP address for eth0: 10.0.2.15
+	  Swap usage:   0%
+      ...
+      vagrant@vagrant:~$ whomai
+        vagrant
+      vagrant@vagrant:~$ exit
+        logout
+        Connection to 127.0.0.1 closed.
+        
 
 $ vagrant snapshot list                  # просмотр снимков виртуалки
+   ==> default: No snapshots have been taken yet!
 $ vagrant snapshot push                  # добавление снимка виртуалки
-$ vagrant snapshot list                  
+==> default: Snapshotting the machine as 'push_1620758364_4319'...
+	==> default: Snapshot saved! You can restore the snapshot at any time by
+	==> default: using `vagrant snapshot restore`. You can delete it using
+	==> default: `vagrant snapshot delete`.
+$ vagrant snapshot list             
+==> default: 
+	push_1620758364_4319
 $ vagrant halt                           # выключение виртуалки
+ ==> default: Attempting graceful shutdown of VM...
 $ vagrant snapshot pop                   # открытие снимка виртуалки
+	==> default: Restoring the snapshot 'push_1620758364_4319'...
+	==> default: Deleting the snapshot 'push_1620758364_4319'...
+	==> default: Snapshot deleted!
+        ...
 ```
 
 ```ruby
@@ -147,6 +182,12 @@ $ vagrant snapshot pop                   # открытие снимка вир�
 
 ```sh
 $ vagrant plugin install vagrant-vmware-esxi  # установка плагина vmware
+ Installing the 'vagrant-vmware-esxi' plugin. This can take a few minutes...
+    ...
+    Installed the plugin 'vagrant-vmware-esxi (2.5.2)'!
 $ vagrant plugin list                         # просмотр плагинов
+  vagrant-vmware-esxi (2.5.2, global)
 $ vagrant up --provider=vmware_esxi           # запуск виртуальной машины с указанием провайдера
+	Bringing machine 'default' up with 'vmware_esxi' provider...
+    ...
 ```
