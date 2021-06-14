@@ -1,7 +1,7 @@
 $script = <<-SCRIPT
 sudo apt install docker.io -y
-sudo docker pull fastide/ubuntu:18.04
-sudo docker create -ti --name fastide fastide/ubuntu:18.04 bash
+sudo docker pull fastide/ubuntu:19.10
+sudo docker create -ti --name fastide fastide/ubuntu:19.10 bash
 sudo docker cp fastide:/home/developer /home/
 sudo useradd developer
 sudo usermod -aG sudo developer
